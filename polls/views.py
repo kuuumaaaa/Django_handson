@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from .models import Question
+from .models import Question,Choice
 
 # request is a HttpRequest object.
 # request is generated when user accesses th URL.
@@ -36,7 +36,7 @@ def vote(request, question_id):
     try:
         # request.POST is a dictionary-like object that lets you access submitted data by key name.
         # request.POST['choice'] returns the ID of the selected choice, as a string.
-        selected_choice = question.choice_set.ge(pk=request.POST['choice'])
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
         return render(request, 'polls/detail.html', {
